@@ -1,303 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="description" content="Your Paper or Project Description">
+  <meta name="keywords" content="keywords, for, seo">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Real3D-Portrait: One-shot Realistic 3D Talking Portrait Synthesis</title>
-  <!-- 如果你有style.css文件，可以通过下行引入
-  <link rel="stylesheet" href="style.css">
-  -->
-  <style>
-    /* ============ 全局样式 ============ */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-      background-color: #fafafa;
-      color: #333;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1, h2, h3, h4 {
-      margin-top: 1em;
-      margin-bottom: 0.5em;
-      font-weight: 600;
-    }
-    hr {
-      margin: 2rem 0;
-      border: none;
-      border-top: 1px solid #ddd;
-    }
-    a {
-      color: #0077cc;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
 
-    /* ============ 头部信息(标题/作者/按钮) ============ */
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .author-list {
-      font-size: 0.95rem;
-      color: #666;
-    }
-    .button-group {
-      margin-top: 1rem;
-    }
-    .button-group a {
-      display: inline-block;
-      margin-right: 10px;
-      padding: 6px 12px;
-      border: 1px solid #0077cc;
-      border-radius: 4px;
-      color: #0077cc;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-    .button-group a:hover {
-      background-color: #0077cc;
-      color: #fff;
-    }
+  <!-- ========== 引入依赖 ========== -->
+  <!-- 1) Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
-    /* ============ 论文简介部分 ============ */
-    .abstract {
-      margin-bottom: 30px;
-      background: #ffffff;
-      padding: 1rem 1.2rem;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .abstract h2 {
-      margin-top: 0;
-      font-size: 1.3rem;
-    }
+  <!-- 2) Bulma Carousel/Slider (可选) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wikiki/bulma-carousel@master/dist/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wikiki/bulma-slider@master/dist/css/bulma-slider.min.css">
 
-    /* ============ 主要内容排版 ============ */
-    section {
-      margin-bottom: 40px;
-      background: #fff;
-      padding: 1rem 1.2rem;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.07);
-    }
-    section h3 {
-      margin-top: 0;
-    }
-    section img {
-      max-width: 100%;
-      display: block;
-      margin: 1rem auto;
-    }
-    .demo-videos {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: flex-start;
-    }
-    .demo-videos .video-item {
-      width: 320px; /* 或者根据需求调整 */
-      background-color: #f8f8f8;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 10px;
-    }
-    .video-item video,
-    .video-item iframe {
-      width: 100%;
-      height: auto;
-    }
+  <!-- 3) Font Awesome / Academicons (图标) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
-    /* ============ 参考文献、版权声明等 ============ */
-    .disclaimer,
-    .bibtex {
-      background: #ffffff;
-      padding: 1rem 1.2rem;
-      margin-bottom: 40px;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.07);
-    }
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      margin: 40px 0;
-    }
-  </style>
+  <!-- 4) 你自己的CSS -->
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <!-- ========== JS 依赖 ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-carousel@master/dist/js/bulma-carousel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-slider@master/dist/js/bulma-slider.min.js"></script>
+  <!-- 你自己的JS脚本 -->
+  <script src="./static/js/index.js"></script>
 </head>
 <body>
-  <div class="container">
-    <!-- ============ 头部 ============ -->
-    <header>
-      <h1>Real3D-Portrait: One-shot Realistic 3D Talking Portrait Synthesis</h1>
-      <p class="author-list">
-        Zhenhui Ye<sup>1,2</sup>, Tianyun Zhong<sup>1,2</sup>, Yi Ren<sup>2</sup>, Jieqi Yang<sup>2</sup>, ...   
-        <!-- 你可替换成自己的作者/单位 -->
-        <br/>
-        <em>Zhejiang University, ByteDance, HKUST(GZ)</em>
-      </p>
-      <!-- 论文链接/代码/视频等按钮 -->
-      <div class="button-group">
-        <a href="#">Paper</a>
-        <a href="#">arXiv</a>
-        <a href="#">Code</a>
-        <a href="#">Demo</a>
+
+  <!-- 头部大区块（Hero Section） -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <!-- 大标题 -->
+            <h1 class="title is-1 publication-title">
+              Real3D-Portrait: One-shot Realistic 3D Talking Portrait Synthesis
+            </h1>
+            <!-- 副标题 / 会议标签 -->
+            <h3 class="title is-5">ICLR 2024 (Spotlight)</h3>
+
+            <!-- 作者列表 -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Zhenhui Ye<sup>1,2</sup>,</span>
+              <span class="author-block">Tianyun Zhong<sup>1,2</sup>,</span>
+              <span class="author-block">Yi Ren<sup>2</sup>,</span>
+              <span class="author-block">... (更多作者) ...</span>
+              <br>
+              <span class="author-block"><sup>1</sup>Zhejiang University,</span>
+              <span class="author-block"><sup>2</sup>ByteDance</span>
+            </div>
+
+            <!-- 链接按钮组 (如 Paper / Code / Demo...) -->
+            <div class="publication-links" style="margin-top: 1rem;">
+              <a href="https://openreview.net/forum?id=XXX" class="button is-rounded is-dark">
+                <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                <span>Paper</span>
+              </a>
+              <a href="https://arxiv.org/abs/XXXX.XXXXX" class="button is-rounded is-dark">
+                <span class="icon"><i class="ai ai-arxiv"></i></span>
+                <span>arXiv</span>
+              </a>
+              <a href="https://github.com/xxx/real3dportrait" class="button is-rounded is-dark">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code</span>
+              </a>
+            </div>
+
+          </div> <!-- end .column -->
+        </div> <!-- end .columns -->
+      </div> <!-- end .container -->
+    </div> <!-- end .hero-body -->
+  </section>
+
+  <!-- 摘要 / Pipeline 图示 -->
+  <section class="section">
+    <div class="container is-max-desktop">
+
+      <!-- Abstract -->
+      <div class="columns is-centered">
+        <div class="column is-four-fifths has-text-centered">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              One-shot 3D talking portrait generation aims to reconstruct a 3D avatar from an unseen image...
+              (这里放你的摘要文字)
+            </p>
+          </div>
+        </div>
       </div>
-    </header>
 
-    <hr/>
+      <br><br>
+      <div class="column has-text-centered">
+        <h2 class="title is-3">Overall Pipeline</h2>
+        <p>The inference process of <b>Real3D-Portrait</b> is shown as follows:</p>
+        <img src="./static/images/Inference.png" class="interpolation-image" alt="Inference Process" style="max-width: 90%;">
+      </div>
+    </div>
+  </section>
 
-    <!-- ============ 摘要 ============ -->
-    <section class="abstract">
-      <h2>Abstract</h2>
+  <!-- Demo 1 -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h1 class="title is-3">Demo 1: One-Shot Realistic 3D Talking Face Generation</h1>
+      <div class="content has-text-justified">
+        <p>
+          To show the overall performance of <b>Real3D-Portrait</b>, we provide demos...
+          (说明文字)
+        </p>
+      </div>
+      <div class="content has-text-centered">
+        <video controls preload="metadata" playsinline width="90%">
+          <source src="./static/videos/DEMO_Aud_Main2.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo 2 -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Demo 2: Comparison with Baselines</h2>
+      <p>We compare our approach with state-of-the-art methods...</p>
+
+      <div class="columns is-centered">
+        <div class="column">
+          <h3 class="title is-4">1. Video-Driven Comparison</h3>
+          <video controls playsinline style="width:100%;">
+            <source src="./static/videos/Comparison_with_VD_baselines.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="column">
+          <h3 class="title is-4">2. Audio-Driven Comparison</h3>
+          <video controls playsinline style="width:100%;">
+            <source src="./static/videos/Comparison_with_AD_baselines.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 更多 Demo (HTB-SR 等) -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Demo 3: The features of HTB-SR model</h2>
       <p>
-        One-shot 3D talking portrait generation aims to reconstruct a 3D avatar from an unseen image...
-        <!-- 在这里放你自己的摘要文字即可 -->
+        With the design of head-torso-background super-resolution (HTB-SR) model...
       </p>
-    </section>
+      <div class="columns is-centered">
+        <div class="column">
+          <h3 class="title is-4">1. Natural Torso Movement</h3>
+          <video controls playsinline style="width:100%;">
+            <source src="./static/videos/LargePose2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="column">
+          <h3 class="title is-4">2. Switchable Background</h3>
+          <video controls playsinline style="width:100%;">
+            <source src="./static/videos/KUN_BG.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- ============ Overall Pipeline ============ -->
-    <section id="pipeline">
-      <h3>Overall Pipeline</h3>
-      <p>The inference process of Real3D-Portrait is shown as follows:</p>
-      <img src="images/pipeline.png" alt="Pipeline Diagram" />
-      <!-- 记得把 images/pipeline.png 换成你自己的图片路径 -->
-      <p style="text-align:center; font-style: italic;">(Caption) This is the pipeline of Real3D-Portrait.</p>
-    </section>
-
-    <!-- ============ Demo 1 ============ -->
-    <section id="demo1">
-      <h3>Demo 1: One-Shot Realistic 3D Talking Face Generation</h3>
+  <!-- Demo 4: 生成过程 -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Demo 4: How Real3D-Portrait Generate the Final Video</h2>
       <p>
-        To show the overall performance of Real3D-Portrait, we provide demos of 10 unseen identities 
-        driven by 6 audio clips from various languages:
+        In the following video, we show how the final video is generated step by step...
       </p>
-      <div class="demo-videos">
-        <!-- 你可以使用 <iframe> 引用视频链接(如B站/YouTube), 或 <video> 引用mp4文件 -->
-        <div class="video-item">
-          <iframe 
-            src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-          <p>Demo video #1</p>
-        </div>
-        <div class="video-item">
-          <iframe 
-            src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2" 
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-          <p>Demo video #2</p>
-        </div>
+      <video controls playsinline style="width:90%;">
+        <source src="./static/videos/Mersi_debug.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h1 class="title is-3">Disclaimer</h1>
+      <div class="content has-text-justified">
+        <p>
+          Any organization or individual is prohibited from using any technology mentioned in this paper...
+        </p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ============ Demo 2 ============ -->
-    <section id="demo2">
-      <h3>Demo 2: Comparison with VD/AD Baselines</h3>
-      <p>Real3D-Portrait supports both video-driven and audio-driven talking face generation. 
-         Below, we compare with state-of-the-art methods.</p>
-      <!-- 类似添加多个视频对比 -->
-      <div class="demo-videos">
-        <div class="video-item">
-          <iframe 
-            src="https://www.youtube.com/embed/EXAMPLE_1" 
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-          <p>Video-driven comparison</p>
-        </div>
-        <div class="video-item">
-          <iframe 
-            src="https://www.youtube.com/embed/EXAMPLE_2" 
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-          <p>Audio-driven comparison</p>
-        </div>
-      </div>
-    </section>
+  <!-- BibTeX -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@inproceedings{yourpaper2024,
+  author    = {...},
+  title     = {Your Paper Title},
+  booktitle = {Conference Name},
+  year      = {2024},
+}</code></pre>
+    </div>
+  </section>
 
-    <!-- ============ Demo 3 ============ -->
-    <section id="demo3">
-      <h3>Demo 3: The features of HTB-SR model</h3>
-      <p>With the design of head-torso-background super-resolution (HTB-SR) model, 
-      our proposed Real3D-Portrait could generate realistic and high fidelity video with 
-      natural torso movement and switchable background.</p>
-      <div class="demo-videos">
-        <div class="video-item">
-          <iframe 
-            src="https://www.youtube.com/embed/EXAMPLE_3" 
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-          <p>Natural Torso Movement</p>
-        </div>
-        <div class="video-item">
-          <iframe 
-            src="https://www.youtube.com/embed/EXAMPLE_4" 
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-          <p>Switchable Background</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ Demo 4 ============ -->
-    <section id="demo4">
-      <h3>Demo 4: How Real3D-Portrait generate the final video</h3>
-      <p>In the following video, we show how the final video is generated step by step... </p>
-      <div class="demo-videos">
-        <div class="video-item">
-          <iframe 
-            src="https://www.youtube.com/embed/EXAMPLE_5" 
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-          <p>Demonstration of 3D generation process</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ Disclaimer ============ -->
-    <section class="disclaimer">
-      <h3>Disclaimer</h3>
-      <p>
-        Any organization or individual is prohibited from using any technology mentioned in this paper 
-        to generate someone's talking video without his/her consent, including but not limited to 
-        government leaders, political figures, and celebrities. If you do not comply with this item, 
-        you could be in violation of copyright laws.
-      </p>
-    </section>
-
-    <!-- ============ BibTeX / References ============ -->
-    <section class="bibtex">
-      <h3>BibTeX</h3>
-      <pre style="background:#f5f5f5; padding:10px; overflow:auto;">
-@misc{YourPaper2025,
-  title = {Real3D-Portrait: One-shot Realistic 3D Talking Portrait Synthesis},
-  author = {Zhenhui Ye and ...}, 
-  year = {2025},
-  eprint={arXivID/DOI/xxx},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV}
-}
-      </pre>
-    </section>
-
-    <!-- ============ 页脚 ============ -->
-    <footer>
-      &copy; 2025 Your Name or Organization
-    </footer>
-  </div>
 </body>
 </html>
