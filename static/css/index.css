@@ -1,0 +1,36 @@
+/* static/css/index.css */
+.publication-title {
+  margin-bottom: 0.5rem;
+}
+
+.publication-authors {
+  margin-top: 1rem;
+  line-height: 1.8;
+}
+
+.author-block {
+  margin-right: 0.6rem;
+}
+
+.hero {
+  background-color: #f9f9f9; /* 自定义浅色背景 */
+}
+
+.section {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.section h2.title.is-3 {
+  margin-bottom: 1rem;
+}
+
+video {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+img.interpolation-image {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
