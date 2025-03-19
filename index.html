@@ -26,58 +26,52 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-carousel@master/dist/js/bulma-carousel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-slider@master/dist/js/bulma-slider.min.js"></script>
+  <!-- 你自己的JS脚本 -->
   <script src="./static/js/index.js"></script>
 
-  <!-- 添加一点点CSS做视频自适应 -->
+  <!-- 使 iframe 响应式显示 -->
   <style>
-    /* 使 iframe 响应式显示 */
     .video-container {
       position: relative;
       width: 100%;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; /* 16:9 */
       margin-top: 1rem;
     }
     .video-container iframe {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
     }
 
-    /* 图片滑块样式 */
-    .image-slider-container {
-      margin-top: 2rem;
-    }
-
-    .slider {
+    /* 用于每列中三张图片水平排列 */
+    .three-images-wrapper {
       display: flex;
-      overflow: hidden;
-      width: 100%;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 1rem; /* 你可自行调整 */
+      margin-bottom: 1rem;
+    }
+    .three-images-wrapper img {
+      max-height: 120px; /* 你可自定义高度 */
+      display: block;
+      transition: opacity 0.3s ease;
     }
 
-    .slider img {
-      max-width: 100%;
+    /* 让仅在切换时可见的图片默认隐藏 */
+    .dynamic-img {
       display: none;
-      transition: opacity 1s ease;
-    }
-
-    input[type="range"] {
-      margin-top: 20px;
-      width: 80%;
-      cursor: pointer;
     }
   </style>
-
 </head>
 <body>
 
-  <!-- 头部大区块（Hero Section） -->
+  <!-- =================== Hero Section =================== -->
   <section class="hero">
     <div class="hero-body">
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
+
             <!-- 大标题 -->
             <h1 class="title is-1 publication-title">
               Monocular and Generalizable Gaussian Talking Head Animation
@@ -105,7 +99,7 @@
               <span class="author-block"><sup>5</sup>Hong Kong Polytechnic University</span>
             </div>
 
-            <!-- 链接按钮组 (如 Paper / Code / Demo...) -->
+            <!-- 链接按钮组 -->
             <div class="publication-links" style="margin-top: 1rem;">
               <a href="https://openreview.net/forum?id=XXX" class="button is-rounded is-dark">
                 <span class="icon"><i class="fas fa-file-pdf"></i></span>
@@ -120,13 +114,39 @@
                 <span>Code</span>
               </a>
             </div>
-          </div> <!-- end .column -->
-        </div> <!-- end .columns -->
-      </div> <!-- end .container -->
-    </div> <!-- end .hero-body -->
+
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Demo Section -->
+  <!-- =================== 摘要 & Pipeline =================== -->
+  <section class="section">
+    <div class="container is-max-desktop">
+
+      <!-- Abstract -->
+      <div class="columns is-centered">
+        <div class="column is-four-fifths has-text-centered">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk)...
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <br><br>
+      <div class="column has-text-centered">
+        <h2 class="title is-3">Overall Pipeline</h2>
+        <p>The inference process of <b>MGGTalk</b> is shown as follows:</p>
+        <img src="./static/images/method.png" class="interpolation-image" alt="Inference Process" style="max-width: 90%;">
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== Demo 视频部分 =================== -->
   <section class="section">
     <div class="container is-max-desktop has-text-centered">
       <h1 class="title is-3">Demo : Monocular and Generalizable Gaussian Talking Head Animation</h1>
@@ -136,7 +156,7 @@
         </p>
       </div>
 
-      <!-- 视频展示 -->
+      <!-- 让视频居中 + 响应式大小 -->
       <div class="video-container">
         <iframe 
           src="https://www.youtube.com/embed/BFYjEBBcHxA"
@@ -145,33 +165,60 @@
           allowfullscreen>
         </iframe>
       </div>
+    </div>
+  </section>
 
-      <!-- 图片滑块 1 -->
-      <div class="image-slider-container">
-        <h2>Image Slider 1</h2>
-        <div class="slider" id="slider1">
-          <img src="image1.jpg" alt="Image 1">
-          <img src="image2.jpg" alt="Image 2">
-          <img src="image3.jpg" alt="Image 3">
-        </div>
-        <input type="range" id="slider1-control" min="0" max="2" value="0" step="1">
-      </div>
+  <!-- =================== 新增：一行两列（每列三张图 + 同步滑块控制后两张） =================== -->
+  <section class="section">
+    <div class="container is-max-desktop">
 
-      <!-- 图片滑块 2 -->
-      <div class="image-slider-container">
-        <h2>Image Slider 2</h2>
-        <div class="slider" id="slider2">
-          <img src="image4.jpg" alt="Image 4">
-          <img src="image5.jpg" alt="Image 5">
-          <img src="image6.jpg" alt="Image 6">
+      <!-- 一行两列 -->
+      <div class="columns is-centered">
+
+        <!-- 左列 -->
+        <div class="column">
+          <!-- 包含三张图：第一张固定显示，后两张由slider控制 -->
+          <div class="three-images-wrapper" id="left-block">
+            <!-- 固定图 -->
+            <img src="./static/images/left_fixed.jpg" alt="left_fixed" class="static-img">
+            <!-- 动态图1/2（默认隐藏） -->
+            <img src="./static/images/left_dynamic_1.jpg" alt="left_dynamic1" class="dynamic-img">
+            <img src="./static/images/left_dynamic_2.jpg" alt="left_dynamic2" class="dynamic-img">
+          </div>
+          <!-- 滑块 -->
+          <input
+            class="slider is-fullwidth is-large is-info"
+            id="left-slider"
+            step="1"
+            min="0"
+            max="1"
+            value="0"
+            type="range">
         </div>
-        <input type="range" id="slider2-control" min="0" max="2" value="0" step="1">
-      </div>
+
+        <!-- 右列 -->
+        <div class="column">
+          <div class="three-images-wrapper" id="right-block">
+            <img src="./static/images/right_fixed.jpg" alt="right_fixed" class="static-img">
+            <img src="./static/images/right_dynamic_1.jpg" alt="right_dynamic1" class="dynamic-img">
+            <img src="./static/images/right_dynamic_2.jpg" alt="right_dynamic2" class="dynamic-img">
+          </div>
+          <input
+            class="slider is-fullwidth is-large is-info"
+            id="right-slider"
+            step="1"
+            min="0"
+            max="1"
+            value="0"
+            type="range">
+        </div>
+
+      </div> <!-- end .columns -->
 
     </div>
   </section>
 
-  <!-- BibTeX -->
+  <!-- =================== BibTeX =================== -->
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
@@ -184,6 +231,5 @@
     </div>
   </section>
 
-  <script src="script.js"></script>
 </body>
 </html>
