@@ -20,14 +20,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
   <!-- 4) 你自己的CSS -->
-  <!-- 如果你有自定义的 index.css，可以保留 -->
   <link rel="stylesheet" href="./static/css/index.css">
 
   <!-- ========== JS 依赖 ========== -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-carousel@master/dist/js/bulma-carousel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-slider@master/dist/js/bulma-slider.min.js"></script>
-  <!-- 你自己的JS脚本 -->
   <script src="./static/js/index.js"></script>
 
   <!-- 添加一点点CSS做视频自适应 -->
@@ -36,7 +34,6 @@
     .video-container {
       position: relative;
       width: 100%;
-      /* 16:9 比例，可按需改成 75% 等其他值 */
       padding-bottom: 56.25%;
       margin-top: 1rem;
     }
@@ -47,7 +44,31 @@
       width: 100%;
       height: 100%;
     }
+
+    /* 图片滑块样式 */
+    .image-slider-container {
+      margin-top: 2rem;
+    }
+
+    .slider {
+      display: flex;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .slider img {
+      max-width: 100%;
+      display: none;
+      transition: opacity 1s ease;
+    }
+
+    input[type="range"] {
+      margin-top: 20px;
+      width: 80%;
+      cursor: pointer;
+    }
   </style>
+
 </head>
 <body>
 
@@ -57,7 +78,6 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-
             <!-- 大标题 -->
             <h1 class="title is-1 publication-title">
               Monocular and Generalizable Gaussian Talking Head Animation
@@ -100,42 +120,15 @@
                 <span>Code</span>
               </a>
             </div>
-
           </div> <!-- end .column -->
         </div> <!-- end .columns -->
       </div> <!-- end .container -->
     </div> <!-- end .hero-body -->
   </section>
 
-  <!-- 摘要 / Pipeline 图示 -->
-  <section class="section">
-    <div class="container is-max-desktop">
-
-      <!-- Abstract -->
-      <div class="columns is-centered">
-        <div class="column is-four-fifths has-text-centered">
-          <h2 class="title is-3">Abstract</h2>
-          <div class="content has-text-justified">
-            <p>
-              In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk)...
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <br><br>
-      <div class="column has-text-centered">
-        <h2 class="title is-3">Overall Pipeline</h2>
-        <p>The inference process of <b>MGGTalk</b> is shown as follows:</p>
-        <img src="./static/images/method.png" class="interpolation-image" alt="Inference Process" style="max-width: 90%;">
-      </div>
-    </div>
-  </section>
-
-  <!-- Demo -->
+  <!-- Demo Section -->
   <section class="section">
     <div class="container is-max-desktop has-text-centered">
-      <!-- 标题居中 -->
       <h1 class="title is-3">Demo : Monocular and Generalizable Gaussian Talking Head Animation</h1>
       <div class="content has-text-centered">
         <p>
@@ -143,7 +136,7 @@
         </p>
       </div>
 
-      <!-- 让视频居中 + 响应式大小 -->
+      <!-- 视频展示 -->
       <div class="video-container">
         <iframe 
           src="https://www.youtube.com/embed/BFYjEBBcHxA"
@@ -152,6 +145,29 @@
           allowfullscreen>
         </iframe>
       </div>
+
+      <!-- 图片滑块 1 -->
+      <div class="image-slider-container">
+        <h2>Image Slider 1</h2>
+        <div class="slider" id="slider1">
+          <img src="image1.jpg" alt="Image 1">
+          <img src="image2.jpg" alt="Image 2">
+          <img src="image3.jpg" alt="Image 3">
+        </div>
+        <input type="range" id="slider1-control" min="0" max="2" value="0" step="1">
+      </div>
+
+      <!-- 图片滑块 2 -->
+      <div class="image-slider-container">
+        <h2>Image Slider 2</h2>
+        <div class="slider" id="slider2">
+          <img src="image4.jpg" alt="Image 4">
+          <img src="image5.jpg" alt="Image 5">
+          <img src="image6.jpg" alt="Image 6">
+        </div>
+        <input type="range" id="slider2-control" min="0" max="2" value="0" step="1">
+      </div>
+
     </div>
   </section>
 
@@ -168,5 +184,6 @@
     </div>
   </section>
 
+  <script src="script.js"></script>
 </body>
 </html>
