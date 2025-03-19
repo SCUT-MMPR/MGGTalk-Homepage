@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
   <!-- 4) 你自己的CSS -->
+  <!-- 如果你有自定义的 index.css，可以保留 -->
   <link rel="stylesheet" href="./static/css/index.css">
 
   <!-- ========== JS 依赖 ========== -->
@@ -28,6 +29,25 @@
   <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-slider@master/dist/js/bulma-slider.min.js"></script>
   <!-- 你自己的JS脚本 -->
   <script src="./static/js/index.js"></script>
+
+  <!-- 添加一点点CSS做视频自适应 -->
+  <style>
+    /* 使 iframe 响应式显示 */
+    .video-container {
+      position: relative;
+      width: 100%;
+      /* 16:9 比例，可按需改成 75% 等其他值 */
+      padding-bottom: 56.25%;
+      margin-top: 1rem;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
 
@@ -96,7 +116,7 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk), which requires monocular datasets and generalizes to unseen identities without personalized re-training. Compared with previous 3D Gaussian Splatting (3DGS) methods that requires elusive multi-view datasets or tedious personalized learning/inference, MGGtalk enables more practical and broader applications. However, in the absence of multi-view and personalized training data, the incompleteness of geometric and appearance information poses a significant challenge.  To address these challenges, MGGTalk explores depth information to enhance geometric and facial symmetry characteristics to supplement both geometric and appearance features.  Initially, based on the pixel-wise geometric information obtained from depth estimation, we incorporate symmetry operations and point cloud filtering techniques to ensure a complete and precise position parameter for 3DGS. Subsequently, we adopt a two-stage strategy with symmetric priors for predicting the remaining 3DGS parameters. We begin by predicting Gaussian parameters for the visible facial regions of the source image. These parameters are subsequently utilized to improve the prediction of Gaussian parameters for the non-visible regions. Extensive experiments demonstrate that MGGTalk surpasses previous state-of-the-art methods, achieving superior performance across various metrics.
+              In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk)...
             </p>
           </div>
         </div>
@@ -113,29 +133,26 @@
 
   <!-- Demo -->
   <section class="section">
-    <div class="container is-max-desktop">
+    <div class="container is-max-desktop has-text-centered">
+      <!-- 标题居中 -->
       <h1 class="title is-3">Demo : Monocular and Generalizable Gaussian Talking Head Animation</h1>
-      <div class="content has-text-justified">
+      <div class="content has-text-centered">
         <p>
           To show the overall performance of <b>MGGTalk</b>, we provide demos...
         </p>
       </div>
-      <div class="content has-text-centered">
-<!--         <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/watch?v=BFYjEBBcHxA"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe> -->
-<iframe width="1920" height="1080" src="https://www.youtube.com/embed/BFYjEBBcHxA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+      <!-- 让视频居中 + 响应式大小 -->
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/BFYjEBBcHxA"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
       </div>
     </div>
   </section>
-
-
 
   <!-- BibTeX -->
   <section class="section" id="BibTeX">
