@@ -197,27 +197,23 @@
             Given a source image <em>I<sub>s</sub></em>, we first use semantic parsing to extract 
             the head region <em>I<sub>s</sub><sup>h</sup></em> and torse-background 
             <em>I<sub>s</sub><sup>bg</sup></em>.
-          </p>
-          <p>
+         
             The DGSR module generates point clouds 
-            <em>[P<sub>f</sub>; P<sub>f</sub><sup>s</sup>]</em> 
+            <em>[P<sub>f</sub> ; P<sub>f</sub><sup>s</sup>]</em> 
             for visible and invisible regions from <em>I<sub>s</sub><sup>h</sup></em>.
-          </p>
-          <p>
+         
             Expression features from the driving image or audio are used by the Deformation Network 
             to edit the point cloud, resulting in 
-            <em>[P<sub>d</sub>; P<sub>d</sub><sup>s</sup>]</em>.
-          </p>
-          <p>
+            <em>[P<sub>d</sub> ; P<sub>d</sub><sup>s</sup>]</em>.
+         
             The SGP module then takes the identity encoding <em>F</em> 
             from <em>I<sub>s</sub><sup>h</sup></em> and the deformed point cloud 
-            <em>[P<sub>d</sub>; P<sub>d</sub><sup>s</sup>]</em> to predict 
+            <em>[P<sub>d</sub> ; P<sub>d</sub><sup>s</sup>]</em> to predict 
             the complete Gaussian parameters 
             <!-- 这里将 \mathcal{G}_{den} 转为 Unicode 𝔾 (脚本体大写 G) 或可直接用 G -->
             <em>&#x1D53C;<sub>den</sub></em>.
-          </p>
-          <p>
-            Finally, <em>&#x1D53C;<sub>den</sub></em> is rendered and composited with 
+         
+            Finally, <em>&#x1D53C ;<sub>den</sub></em> is rendered and composited with 
             torso-background <em>I<sub>s</sub><sup>bg</sup></em> to obtain the target 
             <em>I<sub>tat</sub></em>.
           </p>
