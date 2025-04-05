@@ -7,64 +7,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Monocular and Generalizable Gaussian Talking Head Animation</title>
 
-  <!-- ========== 引入依赖 ========== -->
-  <!-- 1) Bulma CSS -->
+  <!-- Bulma & Bulma Slider -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-
-  <!-- 2) Bulma Carousel/Slider (可选) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wikiki/bulma-carousel@master/dist/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wikiki/bulma-slider@master/dist/css/bulma-slider.min.css">
 
-  <!-- 3) Font Awesome / Academicons (图标) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-
-  <!-- 4) 你自己的CSS -->
-  <link rel="stylesheet" href="./static/css/index.css">
-
-  <!-- ========== JS 依赖 ========== -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-carousel@master/dist/js/bulma-carousel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/Wikiki/bulma-slider@master/dist/js/bulma-slider.min.js"></script>
-  <!-- 你自己的JS脚本 -->
-  <script src="./static/js/index.js"></script>
-
-  <!-- 使 iframe 响应式显示 & 其他样式 -->
   <style>
-    .video-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%; /* 16:9 */
-      margin-top: 1rem;
+    /* 让 3 张图片并排显示 */
+    .three-images-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;  /* 在水平方向分散开 */
+      gap: 1rem;
+      /* 你也可以使用固定宽高，如：
+         width: 600px; height: 200px;
+         或者针对 img 做 max-height/max-width 的控制 */
     }
-    .video-container iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+    .three-images-wrapper img {
+      display: block;
+      /* 例如统一高度，宽度自动缩放 */
+      max-height: 150px; 
     }
 
-    /* 若还有其他全局样式，可继续放这 */
+    /* 后两张图片默认隐藏，由JS控制显示 */
+    .dynamic-img {
+      display: none;
+    }
 
-    /* 示例中，我们自定义一下 slider 的样式，使其更美观 */
+    /* 简单美化一下滑块（可根据Bulma文档自行调整） */
     .slider.is-info {
-      /* 去掉默认外观，避免不同浏览器差异过大 */
-      -webkit-appearance: none; 
-      appearance: none;
-      height: 4px;           /* 滑轨的高度 */
-      border-radius: 2px;    /* 滑轨圆角 */
-      background: #b3d9f7;   /* 滑轨底色，浅一点 */
-      outline: none;         /* 去掉点击时的边框 */
-      cursor: pointer;       /* 鼠标指针 */
+      height: 4px; 
+      background: #c8e2fa; 
+      border-radius: 2px;
     }
-
-    /* 自定义滑块的“拇指”(thumb)部分 - 兼容不同浏览器 */
     .slider.is-info::-webkit-slider-thumb {
       -webkit-appearance: none;
-      appearance: none;
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: #209cee;  /* Bulma .is-info 的主色 */
+      background: #209cee;  /* Bulma的“info”主色 */
       cursor: pointer;
       box-shadow: 0 0 2px rgba(0,0,0,0.3);
     }
@@ -76,210 +56,83 @@
       cursor: pointer;
       box-shadow: 0 0 2px rgba(0,0,0,0.3);
     }
-
-    /* 使“第一张图”与“第二/第三张图”能够重叠切换时，可在此灵活处理 */
-    .image-group img {
-      max-width: 100%;
-      display: block;
-      margin: 0 auto; /* 居中 */
-    }
-    /* 隐藏切换图 */
-    .dynamic-img {
-      display: none;
-    }
   </style>
 </head>
 <body>
 
-  <!-- =================== Hero Section =================== -->
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
+  <!-- 你的其他页面内容 ... -->
 
-            <!-- 大标题 -->
-            <h1 class="title is-1 publication-title">
-              Monocular and Generalizable Gaussian Talking Head Animation
-            </h1>
-            <!-- 副标题 / 会议标签 -->
-            <h3 class="title is-5">CVPR 2025</h3>
-
-            <!-- 作者列表 -->
-            <div class="is-size-5 publication-authors">
-              <span class="author-block">Shengjie Gong<sup>1</sup>,</span>
-              <span class="author-block">Haojie Li<sup>1</sup>,</span>
-              <span class="author-block">Jiapeng Tang<sup>2</sup>,</span>
-              <span class="author-block">Dongming Hu<sup>1</sup>,</span>
-              <span class="author-block">Shuangping Huang<sup>1,3*</sup>,</span>
-              <span class="author-block">Hao Chen<sup>1</sup>,</span>
-              <br>
-              <span class="author-block">Tianshui Chen<sup>4</sup>,</span>
-              <span class="author-block">Zhuoman Liu<sup>5</sup></span>
-              <br>
-              <span class="author-block"><sup>1</sup>South China University of Technology,</span>
-              <span class="author-block"><sup>2</sup>Technical University of Munich,</span>
-              <span class="author-block"><sup>3</sup>Pazhou Laboratory</span>
-              <br>
-              <span class="author-block"><sup>4</sup>Guangdong University of Technology</span>
-              <span class="author-block"><sup>5</sup>Hong Kong Polytechnic University</span>
-            </div>
-
-            <!-- 链接按钮组 -->
-            <div class="publication-links" style="margin-top: 1rem;">
-              <a href="https://openreview.net/forum?id=XXX" class="button is-rounded is-dark">
-                <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                <span>Paper</span>
-              </a>
-              <a href="https://arxiv.org/abs/XXXX.XXXXX" class="button is-rounded is-dark">
-                <span class="icon"><i class="ai ai-arxiv"></i></span>
-                <span>arXiv</span>
-              </a>
-              <a href="https://github.com/xxx/xxx" class="button is-rounded is-dark">
-                <span class="icon"><i class="fab fa-github"></i></span>
-                <span>Code</span>
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =================== 摘要 & Pipeline =================== -->
+  <!-- ========== Explore Expressions Section ========== -->
   <section class="section">
     <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Explore Expressions</h2>
+      <p class="has-text-centered">
+        第一张图片保持不变，后两张图片可通过滑块进行切换
+      </p>
 
-      <!-- Abstract -->
+      <!-- 用columns并排两个模块(左、右) -->
       <div class="columns is-centered">
-        <div class="column is-four-fifths has-text-centered">
-          <h2 class="title is-3">Abstract</h2>
-          <div class="content has-text-justified">
-            <p>
-              In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk)...
-              <!-- 原内容略 -->
-            </p>
+        
+        <!-- 左侧模块 -->
+        <div class="column is-half">
+          <!-- 包含3张图的容器 -->
+          <div class="three-images-wrapper" id="left-images">
+            <!-- 第一张永远显示 -->
+            <img src="./static/images/test1.jpg" alt="left_img1">
+            <!-- 后两张随滑块切换 -->
+            <img class="dynamic-img" id="left-img2" src="./static/images/test2.jpg" alt="left_img2">
+            <img class="dynamic-img" id="left-img3" src="./static/images/test1.jpg" alt="left_img3">
           </div>
+          <!-- 左侧滑块 -->
+          <input id="sliderLeft" class="slider is-info is-fullwidth" type="range" min="1" max="2" value="1" step="1" style="margin-top:1rem;">
         </div>
-      </div>
 
-      <br><br>
-      <div class="column has-text-centered">
-        <h2 class="title is-3">Overall Pipeline</h2>
-        <p>The inference process of <b>MGGTalk</b> is shown as follows:</p>
-        <img src="./static/images/method.png" class="interpolation-image" alt="Inference Process" style="max-width: 90%;">
-      </div>
-    </div>
-  </section>
-
-  <!-- =================== Demo 视频部分 =================== -->
-  <section class="section">
-    <div class="container is-max-desktop has-text-centered">
-      <h1 class="title is-3">Demo : Monocular and Generalizable Gaussian Talking Head Animation</h1>
-      <div class="content has-text-centered">
-        <p>
-          To show the overall performance of <b>MGGTalk</b>, we provide demos...
-        </p>
-      </div>
-
-      <!-- 让视频居中 + 响应式大小 -->
-      <div class="video-container">
-        <iframe 
-          src="https://www.youtube.com/embed/BFYjEBBcHxA"
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- =================== Explore Expressions (一行并排两组，第二/三张用滑块切换) =================== -->
-  <section class="section">
-    <div class="container is-max-desktop has-text-centered">
-      <h2 class="title is-3">Explore Expressions</h2>
-      <p>第一张图片固定显示，滑块用于在第二张与第三张之间切换：</p>
-
-      <!-- 并排两列，每列各展示一组 (3 张图) -->
-      <div class="columns is-vcentered">
-        <!-- Group 1 -->
-        <div class="column">
-          <div class="image-group">
-            <!-- 第一张(固定显示) -->
-            <img src="./static/images/test1.jpg" alt="group1_img1">
-            <!-- 第二、第三张(动态切换) -->
-            <img id="group1-img2" class="dynamic-img" src="./static/images/test2.jpg" alt="group1_img2">
-            <img id="group1-img3" class="dynamic-img" src="./static/images/test3.jpg" alt="group1_img3">
+        <!-- 右侧模块 -->
+        <div class="column is-half">
+          <div class="three-images-wrapper" id="right-images">
+            <img src="./static/images/right_1.png" alt="right_img1">
+            <img class="dynamic-img" id="right-img2" src="./static/images/right_2.png" alt="right_img2">
+            <img class="dynamic-img" id="right-img3" src="./static/images/right_3.png" alt="right_img3">
           </div>
-          <p class="has-text-centered is-size-5">Group 1</p>
-        </div>
-
-        <!-- Group 2 -->
-        <div class="column">
-          <div class="image-group">
-            <!-- 第一张(固定显示) -->
-            <img src="./static/images/group2_1.png" alt="group2_img1">
-            <!-- 第二、第三张(动态切换) -->
-            <img id="group2-img2" class="dynamic-img" src="./static/images/group2_2.png" alt="group2_img2">
-            <img id="group2-img3" class="dynamic-img" src="./static/images/group2_3.png" alt="group2_img3">
-          </div>
-          <p class="has-text-centered is-size-5">Group 2</p>
+          <input id="sliderRight" class="slider is-info is-fullwidth" type="range" min="1" max="2" value="1" step="1" style="margin-top:1rem;">
         </div>
       </div>
-
-      <!-- 底部的滑块，用于同时控制两组的切换 (由第2张到第3张) -->
-      <div class="columns is-centered">
-        <div class="column is-6">
-          <!-- 可根据需要修改 is-info / is-primary / is-success 等颜色 -->
-          <input id="sliderExpressions" class="slider is-fullwidth is-info" type="range" min="1" max="2" value="1" step="1">
-        </div>
-      </div>
-
     </div>
   </section>
 
+  <!-- 你其它部分 ... -->
 
-  <!-- =================== BibTeX =================== -->
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
-      <pre><code>@inproceedings{yourpaper2024,
-  author    = {...},
-  title     = {Your Paper Title},
-  booktitle = {Conference Name},
-  year      = {2024},
-}</code></pre>
-    </div>
-  </section>
-
-
-  <!-- ========== JS：若想独立文件，也可提取到 index.js 中 ========== -->
+  <!-- ========== JS (可放在独立JS里) ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script>
-    $(document).ready(function() {
-      // 根据滑块的值，显示对应的“第二张”或“第三张”
-      function updateImages(val) {
-        // 先全部隐藏
-        $('#group1-img2, #group1-img3, #group2-img2, #group2-img3').hide();
-
-        // 如果滑块值是 "1"，显示第二张；如果是 "2"，显示第三张
-        if (val === '1') {
-          $('#group1-img2, #group2-img2').show();
+    $(function(){
+      // 封装更新显示的函数
+      function updateModuleImages(value, img2Selector, img3Selector) {
+        // 先隐藏后两张
+        $(img2Selector).hide();
+        $(img3Selector).hide();
+        // 如果滑块值是1, 显示第2张；如果是2, 显示第3张
+        if(value === '1'){
+          $(img2Selector).show();
         } else {
-          $('#group1-img3, #group2-img3').show();
+          $(img3Selector).show();
         }
       }
 
-      // 页面加载时，先初始化
-      updateImages($('#sliderExpressions').val());
-
-      // 当滑块移动时，重新更新显示
-      $('#sliderExpressions').on('input change', function() {
-        updateImages($(this).val());
+      // 左侧滑块逻辑
+      $('#sliderLeft').on('input change', function(){
+        updateModuleImages($(this).val(), '#left-img2', '#left-img3');
       });
+      // 初始化
+      updateModuleImages($('#sliderLeft').val(), '#left-img2', '#left-img3');
+
+      // 右侧滑块逻辑
+      $('#sliderRight').on('input change', function(){
+        updateModuleImages($(this).val(), '#right-img2', '#right-img3');
+      });
+      // 初始化
+      updateModuleImages($('#sliderRight').val(), '#right-img2', '#right-img3');
     });
   </script>
-
 </body>
 </html>
