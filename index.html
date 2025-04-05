@@ -43,40 +43,61 @@
       width: 100%; height: 100%;
     }
 
-    /* 用于每列中三张图片水平排列 */
-    .three-images-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem; 
-      margin-bottom: 1rem;
+    /* ---------------------
+       以下为“并列两个组件”部分的样式
+       --------------------- */
+    /* 容器卡片外观：加点圆角、阴影、留白 */
+    .component-card {
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      background-color: #fff;
     }
-    .three-images-wrapper img {
-      display: block;
-      max-width: 100%;
-      max-height: 160px; /* 根据需要自定义 */
-      object-fit: contain;
+    .component-title {
+      margin-bottom: 0.5rem;
+      font-weight: 600;
     }
 
-    /* 简单美化一下滑块（你可按照需要进一步调节） */
-    .slider.is-info {
+    /* 3 张图片紧贴，无横向间距 */
+    .component-images {
+      display: flex;
+      flex-direction: row;
+      gap: 0;             /* 无缝 */
+      font-size: 0;       /* 避免 inline-block 间隙 */
+      overflow: hidden;   /* 若想防止边缘溢出 */
+    }
+    .component-images img {
+      display: block;
+      width: 33.3333%;    /* 三等分 */
+      height: auto;
+      margin: 0;
+      padding: 0;
+      border: none;
+      object-fit: cover;  /* 可改为 contain 看需求 */
+    }
+
+    /* 美化滑块(此处使用 Bulma的 is-success) */
+    .slider.is-success {
       height: 4px;
-      background: #c8e2fa;
+      background: #c6f2d4;
       border-radius: 2px;
       cursor: pointer;
     }
-    .slider.is-info::-webkit-slider-thumb {
+    .slider.is-success::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 18px; height: 18px;
+      width: 18px; 
+      height: 18px;
       border-radius: 50%;
-      background: #209cee;
+      background: #48c774; /* Bulma .is-success 主色 */
       box-shadow: 0 0 2px rgba(0,0,0,0.3);
       cursor: pointer;
     }
-    .slider.is-info::-moz-range-thumb {
-      width: 18px; height: 18px;
+    .slider.is-success::-moz-range-thumb {
+      width: 18px; 
+      height: 18px;
       border-radius: 50%;
-      background: #209cee;
+      background: #48c774;
       box-shadow: 0 0 2px rgba(0,0,0,0.3);
       cursor: pointer;
     }
@@ -151,7 +172,7 @@
           <div class="content has-text-justified">
             <p>
               In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk)...
-              <!-- 省略原文，保持你的内容 -->
+              <!-- 这里保留你的摘要原文 -->
             </p>
           </div>
         </div>
@@ -189,37 +210,61 @@
   </section>
 
 
-  <!-- =================== 三张并排 + 滑块控制后两张(多候选) =================== -->
+  <!-- =================== Explore Expressions: 两个组件并排 =================== -->
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title is-4 has-text-centered">Explore Expressions</h2>
-      <p class="has-text-centered">第一张保持不变，后两张可从多张候选中切换</p>
+      <h2 class="title is-3 has-text-centered">Explore Expressions</h2>
+      <p class="has-text-centered">每个组件中第一张图固定，后两张可从多张候选中切换（紧贴显示）。</p>
       <br>
 
-      <!-- 三张图片并排容器 -->
-      <div class="three-images-wrapper">
-        <!-- 第一张图片 (固定) -->
-        <img id="img1" src="./static/images/test1.jpg" alt="Fixed Image">
-        <!-- 第二张图片 (滑块控制，从 secondImgs[] 中选择) -->
-        <img id="img2" src="" alt="Second Image">
-        <!-- 第三张图片 (滑块控制，从 thirdImgs[] 中选择) -->
-        <img id="img3" src="" alt="Third Image">
-      </div>
+      <!-- 用columns并排2个组件 -->
+      <div class="columns is-desktop">
 
-      <!-- 滑块 -->
-      <div class="columns is-centered">
-        <div class="column is-half">
-          <!-- 范围可对应候选图片数量，这里示例3 -->
-          <input 
-            id="sliderExpr" 
-            class="slider is-fullwidth is-info" 
-            type="range" 
-            min="1" 
-            max="3" 
-            value="1" 
-            step="1">
+        <!-- ========== Component A ========== -->
+        <div class="column">
+          <div class="component-card">
+            <p class="component-title">Component A</p>
+            <div class="component-images">
+              <!-- 第一张(固定) -->
+              <img id="A_img1" src="./static/images/A_fixed.png" alt="A Fixed">
+              <!-- 第二、第三(随滑块切换) -->
+              <img id="A_img2" src="" alt="A Second">
+              <img id="A_img3" src="" alt="A Third">
+            </div>
+            <input 
+              id="sliderA" 
+              class="slider is-success is-fullwidth" 
+              type="range" 
+              min="1" 
+              max="3" 
+              step="1" 
+              value="1" 
+              style="margin-top: 0.75rem;">
+          </div>
         </div>
-      </div>
+
+        <!-- ========== Component B ========== -->
+        <div class="column">
+          <div class="component-card">
+            <p class="component-title">Component B</p>
+            <div class="component-images">
+              <img id="B_img1" src="./static/images/B_fixed.png" alt="B Fixed">
+              <img id="B_img2" src="" alt="B Second">
+              <img id="B_img3" src="" alt="B Third">
+            </div>
+            <input 
+              id="sliderB" 
+              class="slider is-success is-fullwidth" 
+              type="range" 
+              min="1" 
+              max="3" 
+              step="1" 
+              value="1" 
+              style="margin-top: 0.75rem;">
+          </div>
+        </div>
+
+      </div><!-- end columns -->
     </div>
   </section>
 
@@ -240,37 +285,54 @@
 
   <!-- ========== JS：可放到 index.js 中 ========== -->
   <script>
-    // 在这两个数组中放置 2、3 张或更多张候选图的路径
-    // 这里示例 3 张，若有更多请按需添加
-    const secondImgs = [
-      './static/images/test1.jpg',
-      './static/images/test2.jpg',
-      './static/images/sec_3.png'
+    // A组件的候选图片数组
+    const A_secondImgs = [
+      './static/images/A_sec1.png',
+      './static/images/A_sec2.png',
+      './static/images/A_sec3.png'
     ];
-    const thirdImgs = [
-      './static/images/test2.jpg',
-      './static/images/test1.jpg',
-      './static/images/third_3.png'
+    const A_thirdImgs = [
+      './static/images/A_third1.png',
+      './static/images/A_third2.png',
+      './static/images/A_third3.png'
     ];
 
-    // 根据滑块值(1,2,3...)切换图片
-    function updateImages(indexValue) {
-      // indexValue是字符串 "1"/"2"/"3" ...
-      let idx = parseInt(indexValue) - 1; 
-      // 切换第二张
-      document.getElementById('img2').src = secondImgs[idx];
-      // 切换第三张
-      document.getElementById('img3').src = thirdImgs[idx];
+    // B组件的候选图片数组
+    const B_secondImgs = [
+      './static/images/B_sec1.png',
+      './static/images/B_sec2.png',
+      './static/images/B_sec3.png'
+    ];
+    const B_thirdImgs = [
+      './static/images/B_third1.png',
+      './static/images/B_third2.png',
+      './static/images/B_third3.png'
+    ];
+
+    function updateA(value) {
+      const idx = parseInt(value, 10) - 1; 
+      document.getElementById('A_img2').src = A_secondImgs[idx];
+      document.getElementById('A_img3').src = A_thirdImgs[idx];
+    }
+    function updateB(value) {
+      const idx = parseInt(value, 10) - 1; 
+      document.getElementById('B_img2').src = B_secondImgs[idx];
+      document.getElementById('B_img3').src = B_thirdImgs[idx];
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      // 页面加载时先初始化
-      const slider = document.getElementById('sliderExpr');
-      updateImages(slider.value);
+    document.addEventListener('DOMContentLoaded', function(){
+      // 初始化A组件
+      const sliderA = document.getElementById('sliderA');
+      updateA(sliderA.value);
+      sliderA.addEventListener('input', () => {
+        updateA(sliderA.value);
+      });
 
-      // 当滑块变化时更新
-      slider.addEventListener('input', function() {
-        updateImages(this.value);
+      // 初始化B组件
+      const sliderB = document.getElementById('sliderB');
+      updateB(sliderB.value);
+      sliderB.addEventListener('input', () => {
+        updateB(sliderB.value);
       });
     });
   </script>
