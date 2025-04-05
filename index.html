@@ -31,6 +31,7 @@
 
   <!-- 使 iframe 响应式显示 & 其他样式 -->
   <style>
+    /* ======= 1) 原页面已有的样式 ======= */
     .video-container {
       position: relative;
       width: 100%;
@@ -43,10 +44,9 @@
       width: 100%; height: 100%;
     }
 
-    /* ---------------------
-       以下为“并列两个组件”部分的样式
-       --------------------- */
-    /* 容器卡片外观：加点圆角、阴影、留白 */
+    /* ======= 2) 卡片、图片、滑块等新样式 ======= */
+
+    /* 卡片外观：圆角、阴影、留白 */
     .component-card {
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -59,45 +59,50 @@
       font-weight: 600;
     }
 
-    /* 3 张图片紧贴，无横向间距 */
+    /* 3 张图片紧贴（无横向间距） */
     .component-images {
       display: flex;
       flex-direction: row;
       gap: 0;             /* 无缝 */
       font-size: 0;       /* 避免 inline-block 间隙 */
-      overflow: hidden;   /* 若想防止边缘溢出 */
+      overflow: hidden;   /* 防止图片溢出 */
+      width: 100%;        /* 占满父容器 */
     }
     .component-images img {
       display: block;
-      width: 33.3333%;    /* 三等分 */
+      width: 33.3333%;  /* 每张占1/3宽度 */
       height: auto;
       margin: 0;
       padding: 0;
       border: none;
-      object-fit: cover;  /* 可改为 contain 看需求 */
+      object-fit: cover; /* 若要完整显示，可改 contain */
     }
 
-    /* 美化滑块(此处使用 Bulma的 is-success) */
-    .slider.is-success {
-      height: 4px;
-      background: #c6f2d4;
-      border-radius: 2px;
+    /* 自定义滑块：蓝色轨道 + 白色圆角矩形拇指 */
+    .slider.my-custom {
+      width: 100%;          /* 与图片容器同宽 */
+      height: 6px;          /* 轨道厚度 */
+      background: #209cee;  /* Bulma的蓝色 */
+      border-radius: 3px;
       cursor: pointer;
-    }
-    .slider.is-success::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 18px; 
-      height: 18px;
-      border-radius: 50%;
-      background: #48c774; /* Bulma .is-success 主色 */
+      appearance: none;
+    }
+    .slider.my-custom::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 32px;
+      height: 16px;
+      border-radius: 8px;   /* 圆角矩形 */
+      background: #ffffff;  /* 白色拇指 */
       box-shadow: 0 0 2px rgba(0,0,0,0.3);
       cursor: pointer;
     }
-    .slider.is-success::-moz-range-thumb {
-      width: 18px; 
-      height: 18px;
-      border-radius: 50%;
-      background: #48c774;
+    .slider.my-custom::-moz-range-thumb {
+      width: 32px;
+      height: 16px;
+      border-radius: 8px;
+      background: #ffffff;
       box-shadow: 0 0 2px rgba(0,0,0,0.3);
       cursor: pointer;
     }
@@ -172,7 +177,7 @@
           <div class="content has-text-justified">
             <p>
               In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk)...
-              <!-- 这里保留你的摘要原文 -->
+              <!-- 省略你的摘要详细内容 -->
             </p>
           </div>
         </div>
@@ -209,15 +214,14 @@
     </div>
   </section>
 
-
-  <!-- =================== Explore Expressions: 两个组件并排 =================== -->
+  <!-- =================== Explore Expressions: 两个并列组件 =================== -->
   <section class="section">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Explore Expressions</h2>
-      <p class="has-text-centered">每个组件中第一张图固定，后两张可从多张候选中切换（紧贴显示）。</p>
+      <p class="has-text-centered">第一张固定；后两张通过滑块从多张候选中切换，三图紧贴、滑槽蓝、滑块白色圆角矩形。</p>
       <br>
 
-      <!-- 用columns并排2个组件 -->
+      <!-- 并排2个组件 (A 和 B) -->
       <div class="columns is-desktop">
 
         <!-- ========== Component A ========== -->
@@ -233,13 +237,14 @@
             </div>
             <input 
               id="sliderA" 
-              class="slider is-success is-fullwidth" 
-              type="range" 
-              min="1" 
-              max="3" 
-              step="1" 
-              value="1" 
-              style="margin-top: 0.75rem;">
+              class="slider my-custom"
+              type="range"
+              min="1"
+              max="3"
+              step="1"
+              value="1"
+              style="margin-top: 0.75rem;"
+            >
           </div>
         </div>
 
@@ -248,26 +253,26 @@
           <div class="component-card">
             <p class="component-title">Component B</p>
             <div class="component-images">
-              <img id="B_img1" src="./static/images/test2.jpg" alt="B Fixed">
+              <img id="B_img1" src="./static/images/B_fixed.png" alt="B Fixed">
               <img id="B_img2" src="" alt="B Second">
               <img id="B_img3" src="" alt="B Third">
             </div>
             <input 
               id="sliderB" 
-              class="slider is-success is-fullwidth" 
-              type="range" 
-              min="1" 
-              max="3" 
-              step="1" 
-              value="1" 
-              style="margin-top: 0.75rem;">
+              class="slider my-custom"
+              type="range"
+              min="1"
+              max="3"
+              step="1"
+              value="1"
+              style="margin-top: 0.75rem;"
+            >
           </div>
         </div>
 
       </div><!-- end columns -->
     </div>
   </section>
-
 
   <!-- =================== BibTeX =================== -->
   <section class="section" id="BibTeX">
@@ -282,10 +287,9 @@
     </div>
   </section>
 
-
-  <!-- ========== JS：可放到 index.js 中 ========== -->
+  <!-- ========== JS：若想分离可放到 index.js 中 ========== -->
   <script>
-    // A组件的候选图片数组
+    // A组件候选图片
     const A_secondImgs = [
       './static/images/test1.jpg',
       './static/images/test2.jpg',
@@ -297,43 +301,39 @@
       './static/images/A_third3.png'
     ];
 
-    // B组件的候选图片数组
+    // B组件候选图片
     const B_secondImgs = [
-      './static/images/test2.jpg',
-      './static/images/test1.jpg',
+      './static/images/B_sec1.png',
+      './static/images/B_sec2.png',
       './static/images/B_sec3.png'
     ];
     const B_thirdImgs = [
-      './static/images/test1.jpg',
-      './static/images/test2.jpg',
+      './static/images/B_third1.png',
+      './static/images/B_third2.png',
       './static/images/B_third3.png'
     ];
 
     function updateA(value) {
-      const idx = parseInt(value, 10) - 1; 
+      let idx = parseInt(value) - 1;
       document.getElementById('A_img2').src = A_secondImgs[idx];
       document.getElementById('A_img3').src = A_thirdImgs[idx];
     }
     function updateB(value) {
-      const idx = parseInt(value, 10) - 1; 
+      let idx = parseInt(value) - 1;
       document.getElementById('B_img2').src = B_secondImgs[idx];
       document.getElementById('B_img3').src = B_thirdImgs[idx];
     }
 
     document.addEventListener('DOMContentLoaded', function(){
-      // 初始化A组件
+      // 初始化A
       const sliderA = document.getElementById('sliderA');
       updateA(sliderA.value);
-      sliderA.addEventListener('input', () => {
-        updateA(sliderA.value);
-      });
+      sliderA.addEventListener('input', ()=> { updateA(sliderA.value); });
 
-      // 初始化B组件
+      // 初始化B
       const sliderB = document.getElementById('sliderB');
       updateB(sliderB.value);
-      sliderB.addEventListener('input', () => {
-        updateB(sliderB.value);
-      });
+      sliderB.addEventListener('input', ()=> { updateB(sliderB.value); });
     });
   </script>
 
