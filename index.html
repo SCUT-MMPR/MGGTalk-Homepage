@@ -29,7 +29,7 @@
   <!-- 你自己的JS脚本 -->
   <script src="./static/js/index.js"></script>
 
-  <!-- 使 iframe 响应式显示 -->
+  <!-- 使 iframe 响应式显示 & 其他样式 -->
   <style>
     .video-container {
       position: relative;
@@ -43,21 +43,47 @@
       width: 100%; height: 100%;
     }
 
-    /* 用于每列中三张图片水平排列 */
-    .three-images-wrapper {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      gap: 1rem; /* 可自行调整 */
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-    .three-images-wrapper img {
-      max-height: 150px; /* 你可自定义高度 */
-      display: block;
+    /* 若还有其他全局样式，可继续放这 */
+
+    /* 示例中，我们自定义一下 slider 的样式，使其更美观 */
+    .slider.is-info {
+      /* 去掉默认外观，避免不同浏览器差异过大 */
+      -webkit-appearance: none; 
+      appearance: none;
+      height: 4px;           /* 滑轨的高度 */
+      border-radius: 2px;    /* 滑轨圆角 */
+      background: #b3d9f7;   /* 滑轨底色，浅一点 */
+      outline: none;         /* 去掉点击时的边框 */
+      cursor: pointer;       /* 鼠标指针 */
     }
 
-    /* 仅在切换时可见的图片默认隐藏 */
+    /* 自定义滑块的“拇指”(thumb)部分 - 兼容不同浏览器 */
+    .slider.is-info::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #209cee;  /* Bulma .is-info 的主色 */
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    }
+    .slider.is-info::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #209cee;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    }
+
+    /* 使“第一张图”与“第二/第三张图”能够重叠切换时，可在此灵活处理 */
+    .image-group img {
+      max-width: 100%;
+      display: block;
+      margin: 0 auto; /* 居中 */
+    }
+    /* 隐藏切换图 */
     .dynamic-img {
       display: none;
     }
@@ -132,7 +158,7 @@
           <div class="content has-text-justified">
             <p>
               In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk)...
-              <!-- 省略具体内容，保持和你原先的一致 -->
+              <!-- 原内容略 -->
             </p>
           </div>
         </div>
@@ -169,43 +195,51 @@
     </div>
   </section>
 
-  <!-- =================== Explore Expressions (滑块+图片) =================== -->
+
+  <!-- =================== Explore Expressions (一行并排两组，第二/三张用滑块切换) =================== -->
   <section class="section">
     <div class="container is-max-desktop has-text-centered">
       <h2 class="title is-3">Explore Expressions</h2>
-      <p>使用下方滑块查看不同表情变化：</p>
+      <p>第一张图片固定显示，滑块用于在第二张与第三张之间切换：</p>
 
-      <!-- 第一排滑块与图片 -->
-      <div class="columns is-centered">
-        <div class="column is-10">
-          <div class="three-images-wrapper" id="topImages">
-            <!-- 这里放你第一排的不同图片；默认都用 .dynamic-img 隐藏 -->
-            <img class="dynamic-img" src="./static/images/top_1.png" alt="Top1">
-            <img class="dynamic-img" src="./static/images/top_2.png" alt="Top2">
-            <img class="dynamic-img" src="./static/images/top_3.png" alt="Top3">
-            <img class="dynamic-img" src="./static/images/top_4.png" alt="Top4">
+      <!-- 并排两列，每列各展示一组 (3 张图) -->
+      <div class="columns is-vcentered">
+        <!-- Group 1 -->
+        <div class="column">
+          <div class="image-group">
+            <!-- 第一张(固定显示) -->
+            <img src="./static/images/group1_1.png" alt="group1_img1">
+            <!-- 第二、第三张(动态切换) -->
+            <img id="group1-img2" class="dynamic-img" src="./static/images/group1_2.png" alt="group1_img2">
+            <img id="group1-img3" class="dynamic-img" src="./static/images/group1_3.png" alt="group1_img3">
           </div>
-          <!-- 滑块本身 -->
-          <input id="sliderTop" class="slider is-fullwidth" type="range" min="1" max="4" value="1" step="1">
+          <p class="has-text-centered is-size-5">Group 1</p>
+        </div>
+
+        <!-- Group 2 -->
+        <div class="column">
+          <div class="image-group">
+            <!-- 第一张(固定显示) -->
+            <img src="./static/images/group2_1.png" alt="group2_img1">
+            <!-- 第二、第三张(动态切换) -->
+            <img id="group2-img2" class="dynamic-img" src="./static/images/group2_2.png" alt="group2_img2">
+            <img id="group2-img3" class="dynamic-img" src="./static/images/group2_3.png" alt="group2_img3">
+          </div>
+          <p class="has-text-centered is-size-5">Group 2</p>
         </div>
       </div>
 
-      <!-- 第二排滑块与图片 -->
+      <!-- 底部的滑块，用于同时控制两组的切换 (由第2张到第3张) -->
       <div class="columns is-centered">
-        <div class="column is-10">
-          <div class="three-images-wrapper" id="bottomImages">
-            <!-- 同理放第二排的图片 -->
-            <img class="dynamic-img" src="./static/images/bottom_1.png" alt="Bottom1">
-            <img class="dynamic-img" src="./static/images/bottom_2.png" alt="Bottom2">
-            <img class="dynamic-img" src="./static/images/bottom_3.png" alt="Bottom3">
-            <img class="dynamic-img" src="./static/images/bottom_4.png" alt="Bottom4">
-          </div>
-          <!-- 滑块本身 -->
-          <input id="sliderBottom" class="slider is-fullwidth" type="range" min="1" max="4" value="1" step="1">
+        <div class="column is-6">
+          <!-- 可根据需要修改 is-info / is-primary / is-success 等颜色 -->
+          <input id="sliderExpressions" class="slider is-fullwidth is-info" type="range" min="1" max="2" value="1" step="1">
         </div>
       </div>
+
     </div>
   </section>
+
 
   <!-- =================== BibTeX =================== -->
   <section class="section" id="BibTeX">
@@ -220,33 +254,30 @@
     </div>
   </section>
 
-  <!-- 下面这段脚本也可放到 index.js 中 -->
-  <script>
-    // 用 jQuery 或原生 JS 都行，这里用 jQuery 示例
-    $(document).ready(function() {
 
-      // 封装更新显示的函数：先隐藏所有，再仅显示对应索引的图片
-      function updateImages(sliderValue, containerSelector) {
-        // 隐藏所有 .dynamic-img
-        $(containerSelector).find('.dynamic-img').hide();
-        // 只显示第 sliderValue 个
-        // nth-child 是从 1 开始计数
-        $(containerSelector).find('.dynamic-img:nth-child(' + sliderValue + ')').show();
+  <!-- ========== JS：若想独立文件，也可提取到 index.js 中 ========== -->
+  <script>
+    $(document).ready(function() {
+      // 根据滑块的值，显示对应的“第二张”或“第三张”
+      function updateImages(val) {
+        // 先全部隐藏
+        $('#group1-img2, #group1-img3, #group2-img2, #group2-img3').hide();
+
+        // 如果滑块值是 "1"，显示第二张；如果是 "2"，显示第三张
+        if (val === '1') {
+          $('#group1-img2, #group2-img2').show();
+        } else {
+          $('#group1-img3, #group2-img3').show();
+        }
       }
 
-      // 当滑动第一排的滑块时
-      $('#sliderTop').on('input change', function() {
-        updateImages($(this).val(), '#topImages');
-      });
+      // 页面加载时，先初始化
+      updateImages($('#sliderExpressions').val());
 
-      // 当滑动第二排的滑块时
-      $('#sliderBottom').on('input change', function() {
-        updateImages($(this).val(), '#bottomImages');
+      // 当滑块移动时，重新更新显示
+      $('#sliderExpressions').on('input change', function() {
+        updateImages($(this).val());
       });
-
-      // 页面加载时，先初始化显示
-      updateImages($('#sliderTop').val(), '#topImages');
-      updateImages($('#sliderBottom').val(), '#bottomImages');
     });
   </script>
 
