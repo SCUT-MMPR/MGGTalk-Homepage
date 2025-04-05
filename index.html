@@ -48,16 +48,16 @@
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      gap: 1rem; /* 你可自行调整 */
+      gap: 1rem; /* 可自行调整 */
       margin-bottom: 1rem;
+      flex-wrap: wrap;
     }
     .three-images-wrapper img {
-      max-height: 120px; /* 你可自定义高度 */
+      max-height: 150px; /* 你可自定义高度 */
       display: block;
-      transition: opacity 0.3s ease;
     }
 
-    /* 让仅在切换时可见的图片默认隐藏 */
+    /* 仅在切换时可见的图片默认隐藏 */
     .dynamic-img {
       display: none;
     }
@@ -131,13 +131,8 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk), which requires monocular datasets and generalizes to unseen identities without personalized re-training. 
-              Compared with previous 3D Gaussian Splatting (3DGS) methods that requires elusive multi-view datasets or tedious personalized learning/inference, MGGtalk enables more practical and broader applications. 
-              However, in the absence of multi-view and personalized training data, the incompleteness of geometric and appearance information poses a significant challenge. 
-To address these challenges, MGGTalk explores depth information to enhance geometric and facial symmetry characteristics to supplement both geometric and appearance features. 
-Initially, based on the pixel-wise geometric information obtained from depth estimation, we incorporate symmetry operations and point cloud filtering techniques to ensure a complete and precise position parameter for 3DGS.
-Subsequently, we adopt a two-stage strategy with symmetric priors for predicting the remaining 3DGS parameters. We begin by predicting Gaussian parameters for the visible facial regions of the source image. These parameters are subsequently utilized to improve the prediction of Gaussian parameters for the non-visible regions.
-Extensive experiments demonstrate that MGGTalk surpasses previous state-of-the-art methods, achieving superior performance across various metrics.
+              In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk)...
+              <!-- 省略具体内容，保持和你原先的一致 -->
             </p>
           </div>
         </div>
@@ -174,53 +169,41 @@ Extensive experiments demonstrate that MGGTalk surpasses previous state-of-the-a
     </div>
   </section>
 
-  <!-- =================== 新增：一行两列（每列三张图 + 同步滑块控制后两张） =================== -->
+  <!-- =================== Explore Expressions (滑块+图片) =================== -->
   <section class="section">
-    <div class="container is-max-desktop">
+    <div class="container is-max-desktop has-text-centered">
+      <h2 class="title is-3">Explore Expressions</h2>
+      <p>使用下方滑块查看不同表情变化：</p>
 
-      <!-- 一行两列 -->
+      <!-- 第一排滑块与图片 -->
       <div class="columns is-centered">
-
-        <!-- 左列 -->
-        <div class="column">
-          <!-- 包含三张图：第一张固定显示，后两张由slider控制 -->
-          <div class="three-images-wrapper" id="left-block">
-            <!-- 固定图 -->
-            <img src="./static/images/left_fixed.jpg" alt="left_fixed" class="static-img">
-            <!-- 动态图1/2（默认隐藏） -->
-            <img src="./static/images/left_dynamic_1.jpg" alt="left_dynamic1" class="dynamic-img">
-            <img src="./static/images/left_dynamic_2.jpg" alt="left_dynamic2" class="dynamic-img">
+        <div class="column is-10">
+          <div class="three-images-wrapper" id="topImages">
+            <!-- 这里放你第一排的不同图片；默认都用 .dynamic-img 隐藏 -->
+            <img class="dynamic-img" src="./static/images/top_1.png" alt="Top1">
+            <img class="dynamic-img" src="./static/images/top_2.png" alt="Top2">
+            <img class="dynamic-img" src="./static/images/top_3.png" alt="Top3">
+            <img class="dynamic-img" src="./static/images/top_4.png" alt="Top4">
           </div>
-          <!-- 滑块 -->
-          <input
-            class="slider is-fullwidth is-large is-info"
-            id="left-slider"
-            step="1"
-            min="0"
-            max="1"
-            value="0"
-            type="range">
+          <!-- 滑块本身 -->
+          <input id="sliderTop" class="slider is-fullwidth" type="range" min="1" max="4" value="1" step="1">
         </div>
+      </div>
 
-        <!-- 右列 -->
-        <div class="column">
-          <div class="three-images-wrapper" id="right-block">
-            <img src="./static/images/right_fixed.jpg" alt="right_fixed" class="static-img">
-            <img src="./static/images/right_dynamic_1.jpg" alt="right_dynamic1" class="dynamic-img">
-            <img src="./static/images/right_dynamic_2.jpg" alt="right_dynamic2" class="dynamic-img">
+      <!-- 第二排滑块与图片 -->
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <div class="three-images-wrapper" id="bottomImages">
+            <!-- 同理放第二排的图片 -->
+            <img class="dynamic-img" src="./static/images/bottom_1.png" alt="Bottom1">
+            <img class="dynamic-img" src="./static/images/bottom_2.png" alt="Bottom2">
+            <img class="dynamic-img" src="./static/images/bottom_3.png" alt="Bottom3">
+            <img class="dynamic-img" src="./static/images/bottom_4.png" alt="Bottom4">
           </div>
-          <input
-            class="slider is-fullwidth is-large is-info"
-            id="right-slider"
-            step="1"
-            min="0"
-            max="1"
-            value="0"
-            type="range">
+          <!-- 滑块本身 -->
+          <input id="sliderBottom" class="slider is-fullwidth" type="range" min="1" max="4" value="1" step="1">
         </div>
-
-      </div> <!-- end .columns -->
-
+      </div>
     </div>
   </section>
 
@@ -236,6 +219,36 @@ Extensive experiments demonstrate that MGGTalk surpasses previous state-of-the-a
 }</code></pre>
     </div>
   </section>
+
+  <!-- 下面这段脚本也可放到 index.js 中 -->
+  <script>
+    // 用 jQuery 或原生 JS 都行，这里用 jQuery 示例
+    $(document).ready(function() {
+
+      // 封装更新显示的函数：先隐藏所有，再仅显示对应索引的图片
+      function updateImages(sliderValue, containerSelector) {
+        // 隐藏所有 .dynamic-img
+        $(containerSelector).find('.dynamic-img').hide();
+        // 只显示第 sliderValue 个
+        // nth-child 是从 1 开始计数
+        $(containerSelector).find('.dynamic-img:nth-child(' + sliderValue + ')').show();
+      }
+
+      // 当滑动第一排的滑块时
+      $('#sliderTop').on('input change', function() {
+        updateImages($(this).val(), '#topImages');
+      });
+
+      // 当滑动第二排的滑块时
+      $('#sliderBottom').on('input change', function() {
+        updateImages($(this).val(), '#bottomImages');
+      });
+
+      // 页面加载时，先初始化显示
+      updateImages($('#sliderTop').val(), '#topImages');
+      updateImages($('#sliderBottom').val(), '#bottomImages');
+    });
+  </script>
 
 </body>
 </html>
