@@ -177,7 +177,6 @@
           <div class="content has-text-justified">
             <p>
               In this work, we introduce Monocular and Generalizable Gaussian Talking Head Animation (MGGTalk), which requires monocular datasets and generalizes to unseen identities without personalized re-training. Compared with previous 3D Gaussian Splatting (3DGS) methods that requires elusive multi-view datasets or tedious personalized learning/inference, MGGtalk enables more practical and broader applications. However, in the absence of multi-view and personalized training data, the incompleteness of geometric and appearance information poses a significant challenge. To address these challenges, MGGTalk explores depth information to enhance geometric and facial symmetry characteristics to supplement both geometric and appearance features. Initially, based on the pixel-wise geometric information obtained from depth estimation, we incorporate symmetry operations and point cloud filtering techniques to ensure a complete and precise position parameter for 3DGS. Subsequently, we adopt a two-stage strategy with symmetric priors for predicting the remaining 3DGS parameters. We begin by predicting Gaussian parameters for the visible facial regions of the source image. These parameters are subsequently utilized to improve the prediction of Gaussian parameters for the non-visible regions. Extensive experiments demonstrate that MGGTalk surpasses previous state-of-the-art methods, achieving superior performance across various metrics.
-              <!-- 省略你的摘要详细内容 -->
             </p>
           </div>
         </div>
@@ -186,8 +185,50 @@
       <br><br>
       <div class="column has-text-centered">
         <h2 class="title is-3">Overall Pipeline</h2>
-        <p>The inference process of <b>MGGTalk</b> is shown as follows:</p>
-        <img src="./static/images/method.png" class="interpolation-image" alt="Inference Process" style="max-width: 90%;">
+      
+        <!-- 下面是对原 LaTeX caption 的转写，可以单段或多段 -->
+        <div style="max-width: 90%; margin: 1rem auto; text-align: justify;">
+          <!-- 第一行，标题加粗 -->
+          <p>
+            <strong>Pipeline overview of the MGGTalk.</strong>
+          </p>
+          <!-- 其余几行，逐句翻译LaTeX内容 -->
+          <p>
+            Given a source image <em>I<sub>s</sub></em>, we first use semantic parsing to extract 
+            the head region <em>I<sub>s</sub><sup>h</sup></em> and torse-background 
+            <em>I<sub>s</sub><sup>bg</sup></em>.
+          </p>
+          <p>
+            The DGSR module generates point clouds 
+            <em>[P<sub>f</sub>; P<sub>f</sub><sup>s</sup>]</em> 
+            for visible and invisible regions from <em>I<sub>s</sub><sup>h</sup></em>.
+          </p>
+          <p>
+            Expression features from the driving image or audio are used by the Deformation Network 
+            to edit the point cloud, resulting in 
+            <em>[P<sub>d</sub>; P<sub>d</sub><sup>s</sup>]</em>.
+          </p>
+          <p>
+            The SGP module then takes the identity encoding <em>F</em> 
+            from <em>I<sub>s</sub><sup>h</sup></em> and the deformed point cloud 
+            <em>[P<sub>d</sub>; P<sub>d</sub><sup>s</sup>]</em> to predict 
+            the complete Gaussian parameters 
+            <!-- 这里将 \mathcal{G}_{den} 转为 Unicode 𝔾 (脚本体大写 G) 或可直接用 G -->
+            <em>&#x1D53C;<sub>den</sub></em>.
+          </p>
+          <p>
+            Finally, <em>&#x1D53C;<sub>den</sub></em> is rendered and composited with 
+            torso-background <em>I<sub>s</sub><sup>bg</sup></em> to obtain the target 
+            <em>I<sub>tat</sub></em>.
+          </p>
+        </div>
+      
+        <!-- 图片本身 -->
+        <img 
+          src="./static/images/method.png"
+          class="interpolation-image"
+          alt="Pipeline Overview"
+          style="max-width: 90%;">
       </div>
     </div>
   </section>
