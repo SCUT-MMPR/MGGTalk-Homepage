@@ -267,7 +267,7 @@
             <p class="component-title">Component A</p>
             <div class="component-images">
               <!-- 第一张(固定) -->
-              <img id="A_img1" src="./static/images/test1.jpg" alt="A Fixed">
+              <img id="A_img1" src="./static/images/A_ori.jpg" alt="A Fixed">
               <!-- 第二、第三(随滑块切换) -->
               <img id="A_img2" src="" alt="A Second">
               <img id="A_img3" src="" alt="A Third">
@@ -277,7 +277,7 @@
               class="slider my-custom"
               type="range"
               min="1"
-              max="3"
+              max="4"
               step="1"
               value="1"
               style="margin-top: 0.75rem;"
@@ -328,14 +328,16 @@
   <script>
     // A组件候选图片
     const A_secondImgs = [
-      './static/images/test1.jpg',
-      './static/images/test2.jpg',
-      './static/images/A_sec3.png'
+      './static/images/A_sec1.jpg',
+      './static/images/A_sec2.jpg',
+      './static/images/A_sec3.jpg',
+      './static/images/A_sec4.jpg'
     ];
     const A_thirdImgs = [
-      './static/images/test2.jpg',
-      './static/images/test1.jpg',
-      './static/images/A_third3.png'
+      './static/images/A_third1.jpg',
+      './static/images/A_third2.jpg',
+      './static/images/A_third3.jpg',
+      './static/images/A_third4.jpg'
     ];
 
     // B组件候选图片
