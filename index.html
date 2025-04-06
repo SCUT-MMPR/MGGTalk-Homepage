@@ -106,6 +106,31 @@
       box-shadow: 0 0 2px rgba(0,0,0,0.3);
       cursor: pointer;
     }
+    /* 可选：控制这些图片的最大高度以保持整齐 */
+    .eight-images-row img {
+      /* 例如让图片不超过 120px 高度 */
+      max-height: 120px;
+      display: block;
+    }
+
+    /* 整个行容器，包含第1张 + 后面7张 */
+    .eight-images-row {
+      display: flex;
+      align-items: center;
+      /* 每一行之间的下边距，可根据需要修改 */
+      margin-bottom: 2rem; 
+    }
+
+    /* 第一张和后面7张之间的间隔 */
+    .eight-images-row .first-img {
+      margin-right: 1rem; /* 你可改成 0.5rem 或 2rem 等 */
+    }
+
+    /* 后面 7 张的容器，gap=0 使它们紧贴 */
+    .seven-others {
+      display: flex;
+      gap: 0; 
+    }
   </style>
 </head>
 <body>
@@ -361,6 +386,76 @@
       </div><!-- end columns -->
     </div>
   </section>
+
+<!-- =================== 新增的部分(4个组块) =================== -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-4 has-text-centered">Novel View Rending (Head Region)</h2>
+<!--       <p class="has-text-centered">每行8张图，第一张与后面7张之间有间隔，后面7张则紧贴无缝。</p> -->
+      <br>
+
+      <!-- ========== 组块 1 ========== -->
+      <div class="eight-images-row">
+        <!-- 第一张图片(与后面7张间隔) -->
+        <img class="first-img" src="./static/images/block1_1.png" alt="Block1 - Image1">
+        <!-- 后面7张(紧贴) -->
+        <div class="seven-others">
+          <img src="./static/images/block1_2.png" alt="Block1 - Image2">
+          <img src="./static/images/block1_3.png" alt="Block1 - Image3">
+          <img src="./static/images/block1_4.png" alt="Block1 - Image4">
+          <img src="./static/images/block1_5.png" alt="Block1 - Image5">
+          <img src="./static/images/block1_6.png" alt="Block1 - Image6">
+          <img src="./static/images/block1_7.png" alt="Block1 - Image7">
+          <img src="./static/images/block1_8.png" alt="Block1 - Image8">
+        </div>
+      </div>
+
+      <!-- ========== 组块 2 ========== -->
+      <div class="eight-images-row">
+        <img class="first-img" src="./static/images/block2_1.png" alt="Block2 - Image1">
+        <div class="seven-others">
+          <img src="./static/images/block2_2.png" alt="Block2 - Image2">
+          <img src="./static/images/block2_3.png" alt="Block2 - Image3">
+          <img src="./static/images/block2_4.png" alt="Block2 - Image4">
+          <img src="./static/images/block2_5.png" alt="Block2 - Image5">
+          <img src="./static/images/block2_6.png" alt="Block2 - Image6">
+          <img src="./static/images/block2_7.png" alt="Block2 - Image7">
+          <img src="./static/images/block2_8.png" alt="Block2 - Image8">
+        </div>
+      </div>
+
+      <!-- ========== 组块 3 ========== -->
+      <div class="eight-images-row">
+        <img class="first-img" src="./static/images/block3_1.png" alt="Block3 - Image1">
+        <div class="seven-others">
+          <img src="./static/images/block3_2.png" alt="Block3 - Image2">
+          <img src="./static/images/block3_3.png" alt="Block3 - Image3">
+          <img src="./static/images/block3_4.png" alt="Block3 - Image4">
+          <img src="./static/images/block3_5.png" alt="Block3 - Image5">
+          <img src="./static/images/block3_6.png" alt="Block3 - Image6">
+          <img src="./static/images/block3_7.png" alt="Block3 - Image7">
+          <img src="./static/images/block3_8.png" alt="Block3 - Image8">
+        </div>
+      </div>
+
+      <!-- ========== 组块 4 ========== -->
+      <div class="eight-images-row">
+        <img class="first-img" src="./static/images/block4_1.png" alt="Block4 - Image1">
+        <div class="seven-others">
+          <img src="./static/images/block4_2.png" alt="Block4 - Image2">
+          <img src="./static/images/block4_3.png" alt="Block4 - Image3">
+          <img src="./static/images/block4_4.png" alt="Block4 - Image4">
+          <img src="./static/images/block4_5.png" alt="Block4 - Image5">
+          <img src="./static/images/block4_6.png" alt="Block4 - Image6">
+          <img src="./static/images/block4_7.png" alt="Block4 - Image7">
+          <img src="./static/images/block4_8.png" alt="Block4 - Image8">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  
 
   <!-- =================== BibTeX =================== -->
   <section class="section" id="BibTeX">
