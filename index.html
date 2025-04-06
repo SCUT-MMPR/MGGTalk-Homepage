@@ -255,7 +255,7 @@
   <section class="section">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Explore Expressions</h2>
-      <p class="has-text-centered">第一张固定；后两张通过滑块从多张候选中切换，三图紧贴、滑槽蓝、滑块白色圆角矩形。</p>
+<!--       <p class="has-text-centered">第一张固定；后两张通过滑块从多张候选中切换，三图紧贴、滑槽蓝、滑块白色圆角矩形。</p> -->
       <br>
 
       <!-- 并排2个组件 (A 和 B) -->
@@ -264,7 +264,7 @@
         <!-- ========== Component A ========== -->
         <div class="column">
           <div class="component-card">
-            <p class="component-title">Component A</p>
+            <p class="component-title">Example A</p>
             <div class="component-images">
               <!-- 第一张(固定) -->
               <img id="A_img1" src="./static/images/A_ori.jpg" alt="A Fixed">
@@ -288,9 +288,9 @@
         <!-- ========== Component B ========== -->
         <div class="column">
           <div class="component-card">
-            <p class="component-title">Component B</p>
+            <p class="component-title">Example B</p>
             <div class="component-images">
-              <img id="B_img1" src="./static/images/B_fixed.png" alt="B Fixed">
+              <img id="B_img1" src="./static/images/B_ori.jpg" alt="B Fixed">
               <img id="B_img2" src="" alt="B Second">
               <img id="B_img3" src="" alt="B Third">
             </div>
@@ -299,7 +299,58 @@
               class="slider my-custom"
               type="range"
               min="1"
-              max="3"
+              max="4"
+              step="1"
+              value="1"
+              style="margin-top: 0.75rem;"
+            >
+          </div>
+        </div>
+
+      </div><!-- end columns -->
+      <br>
+            <!-- 并排2个组件 (C 和 D) -->
+      <div class="columns is-desktop">
+
+        <!-- ========== Component C ========== -->
+        <div class="column">
+          <div class="component-card">
+            <p class="component-title">Example C</p>
+            <div class="component-images">
+              <!-- 第一张(固定) -->
+              <img id="C_img1" src="./static/images/A_ori.jpg" alt="C Fixed">
+              <!-- 第二、第三(随滑块切换) -->
+              <img id="C_img2" src="" alt="C Second">
+              <img id="C_img3" src="" alt="C Third">
+            </div>
+            <input 
+              id="sliderC" 
+              class="slider my-custom"
+              type="range"
+              min="1"
+              max="4"
+              step="1"
+              value="1"
+              style="margin-top: 0.75rem;"
+            >
+          </div>
+        </div>
+
+        <!-- ========== Component D ========== -->
+        <div class="column">
+          <div class="component-card">
+            <p class="component-title">Example D</p>
+            <div class="component-images">
+              <img id="D_img1" src="./static/images/B_ori.jpg" alt="D Fixed">
+              <img id="D_img2" src="" alt="D Second">
+              <img id="D_img3" src="" alt="D Third">
+            </div>
+            <input 
+              id="sliderD" 
+              class="slider my-custom"
+              type="range"
+              min="1"
+              max="4"
               step="1"
               value="1"
               style="margin-top: 0.75rem;"
@@ -342,14 +393,44 @@
 
     // B组件候选图片
     const B_secondImgs = [
-      './static/images/B_sec1.png',
-      './static/images/B_sec2.png',
-      './static/images/B_sec3.png'
+      './static/images/B_sec1.jpg',
+      './static/images/B_sec2.jpg',
+      './static/images/B_sec3.jpg',
+      './static/images/B_sec4.jpg'
     ];
     const B_thirdImgs = [
-      './static/images/B_third1.png',
-      './static/images/B_third2.png',
-      './static/images/B_third3.png'
+      './static/images/B_third1.jpg',
+      './static/images/B_third2.jpg',
+      './static/images/B_third3.jpg',
+      './static/images/B_third4.jpg'
+    ];
+
+    // C组件候选图片
+    const C_secondImgs = [
+      './static/images/B_sec1.jpg',
+      './static/images/B_sec2.jpg',
+      './static/images/B_sec3.jpg',
+      './static/images/B_sec4.jpg'
+    ];
+    const C_thirdImgs = [
+      './static/images/B_third1.jpg',
+      './static/images/B_third2.jpg',
+      './static/images/B_third3.jpg',
+      './static/images/B_third4.jpg'
+    ];
+
+    // D组件候选图片
+    const D_secondImgs = [
+      './static/images/B_sec1.jpg',
+      './static/images/B_sec2.jpg',
+      './static/images/B_sec3.jpg',
+      './static/images/B_sec4.jpg'
+    ];
+    const D_thirdImgs = [
+      './static/images/B_third1.jpg',
+      './static/images/B_third2.jpg',
+      './static/images/B_third3.jpg',
+      './static/images/B_third4.jpg'
     ];
 
     function updateA(value) {
@@ -362,6 +443,16 @@
       document.getElementById('B_img2').src = B_secondImgs[idx];
       document.getElementById('B_img3').src = B_thirdImgs[idx];
     }
+    function updateC(value) {
+      let idx = parseInt(value) - 1;
+      document.getElementById('C_img2').src = C_secondImgs[idx];
+      document.getElementById('C_img3').src = C_thirdImgs[idx];
+    }
+    function updateD(value) {
+      let idx = parseInt(value) - 1;
+      document.getElementById('D_img2').src = D_secondImgs[idx];
+      document.getElementById('D_img3').src = D_thirdImgs[idx];
+    }
 
     document.addEventListener('DOMContentLoaded', function(){
       // 初始化A
@@ -373,6 +464,16 @@
       const sliderB = document.getElementById('sliderB');
       updateB(sliderB.value);
       sliderB.addEventListener('input', ()=> { updateB(sliderB.value); });
+
+      // 初始化C
+      const sliderC = document.getElementById('sliderC');
+      updateB(sliderC.value);
+      sliderC.addEventListener('input', ()=> { updateB(sliderC.value); });
+
+      // 初始化D
+      const sliderD = document.getElementById('sliderD');
+      updateB(sliderD.value);
+      sliderD.addEventListener('input', ()=> { updateB(sliderD.value); });
     });
   </script>
 
